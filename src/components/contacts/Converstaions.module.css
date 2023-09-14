@@ -1,0 +1,4 @@
+.ql-container.ql-snow{ border: none !important;}
+.ql-toolbar.ql-snow { border: none !important; border-bottom: 1px solid #e5e7eb !important;}
+
+.ql-toolbar { position: absolute; top: 0;left:0;right:0}

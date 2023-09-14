@@ -1,0 +1,378 @@
+import TextInput from "@/components/controls/TextInput";
+import { useNode } from "@craftjs/core";
+import { MuiColorInput } from "mui-color-input";
+import { createElement, useEffect, useState } from "react";
+import { IoCallSharp, IoContract } from "react-icons/io5";
+import {
+  CommonSettings,
+  ICommonSettingsProps,
+  baseDefaults,
+  getCommonSettingsProps,
+} from "./CommonSettings";
+import {
+  FaFacebook,
+  FaLinkedin,
+  FaTwitter,
+  FaInstagram,
+  FaWhatsapp,
+  FaYoutube,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
+import { IconType } from "react-icons/lib";
+import { MdEmail } from "react-icons/md";
+
+const fonts = ["font-main", "font-poppins", "font-noto"];
+const cases = ["normal-case", "uppercase", "lowercase", "capitalize"];
+const justifyContentData = [
+  "center",
+  "space-between",
+  "space-around",
+  "space-evenly",
+  "flex-start",
+  "flex-end",
+  "initial",
+  "inherit",
+];
+const alignItemsData = [
+  "center",
+  "normal",
+  "start",
+  "end",
+  "stretch",
+  "flex-start",
+  "flex-end",
+  "baseline",
+  "initial",
+  "inherit",
+];
+
+const IconsData = [
+  { icon: <FaFacebook />, name: "Facebook" },
+  { icon: <FaLinkedin />, name: "LinkedIn" },
+  { icon: <FaTwitter />, name: "Twitter" },
+  { icon: <FaInstagram />, name: "Instagram" },
+  { icon: <FaWhatsapp />, name: "Whatsapp" },
+  { icon: <FaYoutube />, name: "Youtube" },
+  { icon: <IoCallSharp />, name: "Call" },
+  { icon: <MdEmail />, name: "Email" },
+  { icon: <MdEmail />, name: "User" },
+  { icon: <MdEmail />, name: "Medical" },
+  { icon: <FaRegCalendarAlt />, name: "Calendar" },
+];
+
+const defaults = {
+  padding: 4,
+  fontSize: 16,
+  color: "#000000",
+  alignment: "left",
+  bold: "font-normal",
+  italic: false,
+  underline: false,
+  lineHeight: 1.5,
+  font: fonts[0],
+  case: cases[0],
+  justifyContent: justifyContentData[0],
+  alignItems: alignItemsData[0],
+  href: "#",
+  social: {
+    name: "Facebook",
+    icon: <FaFacebook />,
+  },
+};
+
+const fontWeights = [
+  "font-thin",
+  "font-extralight",
+  "font-light",
+  "font-normal",
+  "font-medium",
+  "font-semibold",
+  "font-bold",
+  "font-extrabold",
+];
+
+interface SocialIcons {
+  name: string;
+  icon?: any;
+}
+
+interface IIconsProps extends ICommonSettingsProps {
+  fontSize?: number;
+  alignment?: "left" | "right" | "center";
+  color?: string;
+  href: string;
+  social?: SocialIcons;
+  justifyContent: string;
+  alignItems: string;
+  padding?: number;
+}
+
+const Icons = ({
+  padding,
+  fontSize = 16,
+  alignment = "left",
+  color = "#000000",
+  backgroundColor = baseDefaults.backgroundColor,
+  borderRadius = baseDefaults.borderRadius,
+  borderColor = baseDefaults.borderColor,
+  borderType = "border-solid",
+  borderWidth = baseDefaults.borderWidth,
+  marginTop = baseDefaults.marginTop,
+  marginBottom = baseDefaults.marginBottom,
+  marginLeft = baseDefaults.marginLeft,
+  marginRight = baseDefaults.marginRight,
+  paddingTop = baseDefaults.paddingTop,
+  paddingBottom = baseDefaults.paddingBottom,
+  paddingLeft = baseDefaults.paddingLeft,
+  paddingRight = baseDefaults.paddingRight,
+  shadow = "shadow-none",
+  shadowColor = "transparent",
+  justifyContent = defaults.justifyContent,
+  alignItems = defaults.alignItems,
+  href,
+  social = defaults.social,
+}: IIconsProps) => {
+  const {
+    connectors: { connect, drag },
+    hasSelectedNode,
+    hasDraggedNode,
+    isActive,
+    actions: { setProp },
+  } = useNode((state) => ({
+    hasSelectedNode: state.events.selected,
+    hasDraggedNode: state.events.dragged,
+    isActive: state.events.selected,
+  }));
+
+  const [editable, setEditable] = useState(false);
+
+  useEffect(() => {
+    !hasSelectedNode && setEditable(false);
+  }, [hasSelectedNode]);
+
+  const Icon = social.name;
+  return (
+    <div
+      ref={(ref: any) => connect(drag(ref))}
+      onClick={(e) => setEditable(true)}
+      style={{
+        backgroundColor,
+        borderColor,
+        borderWidth: `${borderWidth}px`,
+        borderRadius: `${borderRadius}px`,
+        marginTop: `${marginTop}px`,
+        marginBottom: `${marginBottom}px`,
+        marginLeft: `${marginLeft}px`,
+        marginRight: `${marginRight}px`,
+        paddingTop: `${paddingTop}px`,
+        paddingBottom: `${paddingBottom}px`,
+        paddingLeft: `${paddingLeft}px`,
+        paddingRight: `${paddingRight}px`,
+        justifyContent: `${justifyContent}`,
+        alignItems: `${alignItems}`,
+      }}
+      className={`flex hover:outline-gray-500 hover:outline outline-1 hover:outline-dashed ${borderType} ${shadow} shadow-[${shadowColor}]`}
+    >
+      <a className={`p-${padding} href=${href}`}>
+        {IconsData.filter((item: any) => item.name == Icon).map(
+          (item: any, index: number) => (
+            <div
+              key={index}
+              style={{
+                fontSize: `${fontSize}px`,
+                color: color,
+              }}
+            >
+              {item.icon}
+            </div>
+          )
+        )}
+      </a>
+    </div>
+  );
+};
+
+const IconsSettings: any = () => {
+  const {
+    actions: { setProp },
+    props,
+  } = useNode((node) => ({
+    props: node.data.props,
+  }));
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400 ">Select Font</label>
+        <div className="dropdown">
+          <label
+            tabIndex={0}
+            className={`btn hover:bg-transparent hover:text-black rounded-md py-2 btn-sm bg-transparent border-gray-300 capitalize w-full text-left justify-start text-gray-500`}
+          >
+            {props.social.icon} {props.social.name}
+          </label>
+          <div
+            tabIndex={0}
+            className="dropdown-content card card-compact w-64 p-2 shadow bg-white text-gray-700 max-h-80 overflow-y-scroll scrollbar-hide"
+          >
+            <ul tabIndex={0} className="menu w-full bg-transparent">
+              {IconsData.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() => setProp((props: any) => (props.social = item))}
+                  className={`${
+                    item === props.font &&
+                    "bg-primary text-primary-content rounded-md"
+                  }`}
+                >
+                  <a className={`capitalize ${item} text-sm`}>
+                    {item.icon} {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400 ">Social Link</label>
+        <div className="">
+          <TextInput
+            lefticon={<IoContract />}
+            value={props.href}
+            onChange={(e) =>
+              setProp((props: any) => (props.href = e.target.value))
+            }
+            placeholder="Link"
+          />
+        </div>
+      </div>
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400">Icon Size</label>
+        <TextInput
+          lefticon={<IoContract />}
+          value={props.fontSize}
+          placeholder="Font size in px"
+          onChange={(e) =>
+            setProp((props: any) => (props.fontSize = e.target.value))
+          }
+          type="number"
+          max={90}
+          min={10}
+        />
+      </div>
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400 ">Icon Color</label>
+        <div className="">
+          <MuiColorInput
+            format="hex"
+            value={props.color ? props.color : "#000000"}
+            onChange={(e) => setProp((props: any) => (props.color = e))}
+          />
+        </div>
+      </div>
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400 ">Justify Content</label>
+        <div className="dropdown">
+          <label
+            tabIndex={0}
+            className={`btn hover:bg-transparent hover:text-black rounded-md pt-3 pb-6 btn-sm bg-transparent  border-gray-300 capitalize w-full text-left justify-start   text-gray-500`}
+          >
+            {props.justifyContent}
+          </label>
+          <div
+            tabIndex={0}
+            className="dropdown-content card card-compact w-64 p-2 shadow bg-white text-gray-700 max-h-80 overflow-y-scroll scrollbar-hide"
+          >
+            <ul tabIndex={0} className="menu w-full bg-transparent">
+              {justifyContentData.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() =>
+                    setProp((props: any) => (props.justifyContent = item))
+                  }
+                  className={`${
+                    item === props.justifyContent &&
+                    "bg-primary text-primary-content rounded-md"
+                  }`}
+                >
+                  <a className={`${item} text-sm`}>{item.replace("-", " ")}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-4 mt-2 flex flex-col gap-1">
+        <label className="text-sm text-gray-400 ">Align Items</label>
+        <div className="dropdown">
+          <label
+            tabIndex={0}
+            className={`btn hover:bg-transparent hover:text-black rounded-md pt-3 pb-6 btn-sm bg-transparent  border-gray-300 capitalize w-full text-left justify-start   text-gray-500`}
+          >
+            {props.alignItems}
+          </label>
+          <div
+            tabIndex={0}
+            className="dropdown-content card card-compact w-64 p-2 shadow bg-white text-gray-700 max-h-80 overflow-y-scroll scrollbar-hide"
+          >
+            <ul tabIndex={0} className="menu w-full bg-transparent">
+              {alignItemsData.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() =>
+                    setProp((props: any) => (props.alignItems = item))
+                  }
+                  className={`${
+                    item === props.alignItems &&
+                    "bg-primary text-primary-content rounded-md"
+                  }`}
+                >
+                  <a className={`${item} text-sm`}>{item.replace("-", " ")}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <CommonSettings />
+    </div>
+  );
+};
+
+Icons.craft = {
+  related: {
+    settings: IconsSettings,
+  },
+  props: {
+    padding: defaults.padding,
+    text: "Start writing here...",
+    fontSize: defaults.fontSize,
+    underline: defaults.underline,
+    bold: defaults.bold,
+    italic: defaults.italic,
+    alignment: defaults.alignment,
+    lineHeight: defaults.lineHeight,
+    font: defaults.font,
+    textCase: defaults.case,
+    ...getCommonSettingsProps(),
+    borderRadius: 10,
+    borderWidth: baseDefaults.borderWidth,
+    marginTop: baseDefaults.marginTop,
+    marginBottom: baseDefaults.marginBottom,
+    marginLeft: baseDefaults.marginLeft,
+    marginRight: baseDefaults.marginRight,
+    paddingTop: baseDefaults.paddingTop,
+    paddingBottom: baseDefaults.paddingBottom,
+    paddingLeft: baseDefaults.paddingLeft,
+    paddingRight: baseDefaults.paddingRight,
+    href: defaults.href,
+    social: defaults.social,
+    justifyContent: defaults.justifyContent,
+    alignItems: defaults.alignItems,
+  },
+  displayName: "Icons",
+};
+export default Icons;

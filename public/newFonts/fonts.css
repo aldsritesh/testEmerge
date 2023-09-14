@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-black-webfont.woff') format('truetype');  
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-bold-webfont.woff') format('truetype');  
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Add additional font weights as needed */
+  
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-medium-webfont.woff') format('truetype');  
+
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-regular-webfont.woff') format('truetype');  
+
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-thin-webfont.woff') format('truetype');  
+
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-light-webfont.woff') format('truetype');  
+
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Strawford';
+    src: url('./strawford-extralight-webfont.woff') format('truetype');  
+
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+  }
+  
